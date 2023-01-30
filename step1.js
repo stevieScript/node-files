@@ -1,14 +1,14 @@
-const fs = require('fs')
-const process = require('process')
+import { readFile } from 'fs'
+import { exit, argv } from 'process'
 
 function cat(path){
-    fs.readFile(path, 'utf8', (err, data) =>{
+    readFile(path, 'utf8', (err, data) =>{
         if (err) {
             console.error(err)
-            process.exit(1)
+            exit(1)
         }
-        console.log('Reading file...')
+        console.log(data)
     })
 }
 
-cat(process.argv[2])
+cat(argv[2])

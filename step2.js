@@ -1,28 +1,28 @@
-const fs = require('fs')
-const process = require('process')
-const axios = require('axios')
+import { readFile } from 'fs'
+import { exit, argv } from 'process'
+import { get } from 'axios'
 
 function cat(path){
-    fs.readFile(path, 'utf8', (err, data) =>{
+    readFile(path, 'utf8', (err, data) =>{
         if (err) {
-            console.error(err)
-            process.exit(1)
+            console.error(`Error reading ${path}: ${err}`)
+            exit(1)
         }
-        console.log('Reading file...')
+        console.log(data)
     })
 }
 
 async function webCat(url){
     try{
-        let resp = await axios.get(url)
+        let resp = await get(url)
         console.log(resp.data)
     } catch(err){
         console.error(`Error fetching ${url}: ${err}`)
-        process.exit(1)
+        exit(1)
     }
 }
 
-let path = process.argv[2]
+let path = argv[2]
 
 if (path.slice(0, 4) === 'http'){
     webCat(path)
